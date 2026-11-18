@@ -3,6 +3,9 @@
   "tasks": {
     "build": {
       "outputs": ["build/**", "app/generated/**"]
+    },
+    "test": {
+      "env": ["TEST_DATABASE_URL"]
     }
   }
 }
