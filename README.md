@@ -90,6 +90,6 @@ Run `bun run changeset` to record a change to the published libraries.
 <p style="text-align: center; color: #aaa; padding-top: 50px">
   Made with love by
   <a href="https://curvenote.com" target="_blank" style="color: #aaa">
-    <img src="https://curvenote.dev/images/icon.png" style="height: 1em" /> Curvenote
+    <img src="https://cdn.curvenote.com/static/site/curvenote/logo-icon-blue.svg" style="height: 1em" /> Curvenote
   </a>
 </p>
