@@ -1,0 +1,131 @@
+// MECA SWORD: who can sign in, their API keys, and what has been received and sent.
+// Package files themselves live in the blob store (GCS when deployed), keyed by id.
+
+generator client {
+  provider     = "prisma-client"
+  output       = "../app/generated/prisma"
+  moduleFormat = "esm"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum UserStatus {
+  pending
+  active
+  blocked
+}
+
+enum UserRole {
+  member
+  admin
+}
+
+/// Someone who has signed in. New people are `pending` until an admin sets them `active`
+/// (in the Supabase dashboard), except emails listed as admins in config.
+model User {
+  email      String     @id
+  name       String?
+  status     UserStatus @default(pending)
+  role       UserRole   @default(member)
+  /// The provider they last signed in with: google, github or dev
+  provider   String?
+  createdAt  DateTime   @default(now())
+  lastSeenAt DateTime?
+  apiKeys    ApiKey[]
+}
+
+/// A key for depositing over SWORD, acting as its owner.
+model ApiKey {
+  id         String    @id @default(uuid())
+  name       String
+  /// The first characters of the key, to recognise it in lists
+  prefix     String
+  /// SHA-256 (hex) of the key; the key itself is shown once and never stored
+  hash       String    @unique
+  ownerEmail String
+  owner      User      @relation(fields: [ownerEmail], references: [email], onDelete: Cascade)
+  createdAt  DateTime  @default(now())
+  lastUsedAt DateTime?
+  revokedAt  DateTime?
+
+  @@index([ownerEmail])
+}
+
+/// A package received over SWORD. `record` is the sword-server `DepositRecord`; the other
+/// columns are copies of its fields for listing and filtering.
+model Deposit {
+  id          String   @id
+  createdAt   DateTime
+  updatedAt   DateTime
+  /// Email of the depositor (the API key's owner)
+  depositedBy String?
+  collection  String?
+  state       String
+  title       String?
+  record      Json
+
+  @@index([createdAt])
+  @@index([depositedBy])
+}
+
+/// A MECA package built or uploaded here, ready to send.
+model Package {
+  id        String   @id @default(uuid())
+  filename  String
+  createdAt DateTime @default(now())
+  createdBy String
+  title     String?
+  authors   String?
+  doi       String?
+  size      Int
+  fileCount Int
+  /// Built here from loose files, so transfer.xml is written for each destination at send time
+  built     Boolean
+  notes     String[]
+  warnings  String[]
+}
+
+/// Another SWORD server we send to. Added by admins; name, collections and limits come from
+/// its service document.
+model Destination {
+  id            String    @id @default(uuid())
+  name          String
+  serviceUrl    String    @unique
+  username      String?
+  /// The password (with `username`) or API key, AES-256-GCM encrypted with config `encryptionKey`
+  secret        String?
+  secretKind    String?
+  /// `[{ url, title }]`
+  collections   Json      @default("[]")
+  maxUploadSize Int?
+  acceptsMeca   Boolean?
+  checkedAt     DateTime?
+  /// Last problem reading the service document, e.g. bad credentials
+  error         String?
+  createdAt     DateTime  @default(now())
+}
+
+/// A package we sent, and its last known state at the destination.
+model SentDeposit {
+  id               String    @id @default(uuid())
+  sentAt           DateTime  @default(now())
+  sentBy           String
+  packageId        String?
+  filename         String
+  size             Int
+  title            String?
+  /// A `Destination` id, or `self` for this server
+  destinationId    String?
+  destination      String
+  collection       String?
+  serviceUrl       String
+  objectUrl        String?
+  state            String?
+  stateDescription String?
+  checkedAt        DateTime?
+  error            String?
+
+  @@index([sentAt])
+}

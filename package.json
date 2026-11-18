@@ -1,0 +1,38 @@
+{
+  "name": "meca-sword-api",
+  "private": true,
+  "type": "module",
+  "workspaces": [
+    "packages/*",
+    "apps/*"
+  ],
+  "scripts": {
+    "build": "turbo run build",
+    "dev": "turbo run dev",
+    "clean": "turbo run clean --parallel && find . -name '.turbo' -type d -prune -exec rm -rf '{}' +",
+    "lint": "turbo run lint",
+    "lint:format": "turbo run lint:format",
+    "test": "turbo run test",
+    "typecheck": "turbo run typecheck",
+    "format": "prettier --write \"**/*.{ts,tsx,md}\"",
+    "start": "bun run --cwd apps/meca-sword start",
+    "changeset": "changeset",
+    "version": "changeset version && bun install",
+    "publish": "bun run clean && bun run build -- --force && changeset publish && git push --follow-tags"
+  },
+  "devDependencies": {
+    "@changesets/cli": "^2.31.0",
+    "@types/node": "^22.0.0",
+    "ajv": "^8.20.0",
+    "eslint": "^8.42.0",
+    "eslint-config-curvenote": "^0.0.4",
+    "prettier": "^3.0.0",
+    "turbo": "^2.0.0",
+    "typescript": "^5.8.3",
+    "vitest": "^4.0.16"
+  },
+  "engines": {
+    "node": ">=20.0.0"
+  },
+  "packageManager": "bun@1.4.2"
+}

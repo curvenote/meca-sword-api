@@ -1,0 +1,25 @@
+# Non-secret app config. `bun run dev` copies this to .app-config.yml (not committed) the
+# first time; secrets go in .app-config.secrets.yml. Validated by .app-config.schema.yml.
+#
+# A deployment supplies its own config: the whole thing as JSON in the APP_CONFIG environment
+# variable (e.g. `APP_CONFIG_ENV=production npx app-config create --secrets --format json`
+# with .app-config.production.yml and .app-config.secrets.production.yml).
+title: Curvenote
+publicUrl: http://localhost:5173
+# Emails that are active admins as soon as they sign in (or put them in the secrets file)
+# admins: [you@example.org]
+collections:
+  - id: articles
+    title: Articles
+  - id: reviews
+    title: Reviews
+# 32 MiB; set to what your hosting allows for a request body
+maxUploadSize: 33554432
+storage:
+  # A local folder, or `bucket: <name>` for Google Cloud Storage
+  directory: data/files
+auth:
+  # Sign in as any email, for development only. Production uses OAuth clients (in secrets):
+  # google: { clientId, clientSecret } and/or github: { clientId, clientSecret }, with redirect
+  # URIs <publicUrl>/auth/google/callback and <publicUrl>/auth/github/callback
+  devLogin: true

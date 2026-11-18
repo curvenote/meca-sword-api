@@ -1,0 +1,48 @@
+{
+  "name": "@curvenote/meca-sword-app",
+  "version": "0.0.1",
+  "private": true,
+  "description": "Send and receive MECA packages over SWORD v3",
+  "license": "MIT",
+  "type": "module",
+  "scripts": {
+    "clean": "rm -rf build app/generated",
+    "build": "prisma generate && react-router build",
+    "dev": "bun scripts/dev.ts",
+    "start": "node server.js",
+    "typecheck": "prisma generate && react-router typegen && tsc",
+    "lint": "eslint \"app/**/*.{ts,tsx}\" -c ./.eslintrc.cjs",
+    "lint:format": "prettier --check \"app/**/*.{ts,tsx}\"",
+    "test": "vitest run",
+    "db:migrate": "prisma migrate dev",
+    "db:deploy": "prisma migrate deploy"
+  },
+  "dependencies": {
+    "@app-config/config": "^2.8.7",
+    "@curvenote/sword-client": "workspace:*",
+    "@curvenote/sword-common": "workspace:*",
+    "@curvenote/sword-server": "workspace:*",
+    "@google-cloud/storage": "^9.0.0",
+    "@prisma/adapter-pg": "7.10.0",
+    "@prisma/client": "7.10.0",
+    "@react-router/express": "^7.18.5",
+    "@react-router/node": "^7.18.2",
+    "compression": "^1.8.2",
+    "express": "^4.22.3",
+    "isbot": "^5.1.0",
+    "morgan": "^1.12.1",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "react-router": "^7.18.2",
+    "remix-auth": "^4.2.0",
+    "remix-auth-oauth2": "^3.4.1"
+  },
+  "devDependencies": {
+    "@app-config/cli": "^2.8.7",
+    "@react-router/dev": "^7.18.2",
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0",
+    "prisma": "7.10.0",
+    "vite": "^7.3.7"
+  }
+}

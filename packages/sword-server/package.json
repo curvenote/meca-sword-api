@@ -1,0 +1,49 @@
+{
+  "name": "@curvenote/sword-server",
+  "version": "0.0.1",
+  "description": "Framework-agnostic SWORD v3 server for receiving MECA packages",
+  "author": "Curvenote <support@curvenote.com>",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/curvenote/meca-sword-api.git",
+    "directory": "packages/sword-server"
+  },
+  "homepage": "https://github.com/curvenote/meca-sword-api/tree/main/packages/sword-server",
+  "bugs": "https://github.com/curvenote/meca-sword-api/issues",
+  "sideEffects": false,
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "keywords": [
+    "meca",
+    "sword",
+    "swordv3",
+    "open-science",
+    "publishing"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "clean": "rm -rf dist",
+    "dev": "tsc -p tsconfig.build.json --watch --preserveWatchOutput",
+    "build": "bun run clean && tsc -p tsconfig.build.json",
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint \"src/**/*.ts\" -c ./.eslintrc.cjs",
+    "lint:format": "prettier --check \"src/**/*.{ts,tsx,md}\"",
+    "test": "vitest run",
+    "test:watch": "vitest"
+  },
+  "dependencies": {
+    "@curvenote/sword-common": "workspace:*"
+  }
+}

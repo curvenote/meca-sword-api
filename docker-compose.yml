@@ -1,0 +1,14 @@
+# Local Postgres for the app (bun run dev starts it). Deployed, the app uses Supabase.
+services:
+  db:
+    image: postgres:16
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: meca_sword
+    ports:
+      - '54329:5432'
+    volumes:
+      - meca-sword-db:/var/lib/postgresql/data
+volumes:
+  meca-sword-db:

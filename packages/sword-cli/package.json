@@ -1,0 +1,44 @@
+{
+  "name": "@curvenote/sword-cli",
+  "version": "0.0.1",
+  "description": "Build MECA packages and deposit them over SWORD v3 from the command line",
+  "author": "Curvenote <support@curvenote.com>",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/curvenote/meca-sword-api.git",
+    "directory": "packages/sword-cli"
+  },
+  "homepage": "https://github.com/curvenote/meca-sword-api/tree/main/packages/sword-cli",
+  "bugs": "https://github.com/curvenote/meca-sword-api/issues",
+  "type": "module",
+  "bin": {
+    "meca-sword": "./dist/cli.js"
+  },
+  "files": [
+    "dist"
+  ],
+  "keywords": [
+    "meca",
+    "sword",
+    "swordv3",
+    "open-science",
+    "publishing"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "clean": "rm -rf dist",
+    "dev": "tsc -p tsconfig.build.json --watch --preserveWatchOutput",
+    "build": "bun run clean && tsc -p tsconfig.build.json",
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint \"src/**/*.ts\" -c ./.eslintrc.cjs",
+    "lint:format": "prettier --check \"src/**/*.{ts,tsx,md}\""
+  },
+  "dependencies": {
+    "@curvenote/sword-client": "workspace:*",
+    "@curvenote/sword-common": "workspace:*",
+    "commander": "^12.1.0"
+  }
+}

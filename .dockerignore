@@ -1,0 +1,14 @@
+**/node_modules
+**/dist
+**/build
+**/.turbo
+**/.react-router
+**/app/generated
+**/data
+**/.app-config.secrets*.yml
+.git
+.github
+.changeset
+infra
+plans
+*.md

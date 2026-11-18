@@ -1,0 +1,56 @@
+{
+  "name": "@curvenote/sword-common",
+  "version": "0.0.1",
+  "description": "SWORD v3 document types, constants and helpers for MECA transfer",
+  "author": "Curvenote <support@curvenote.com>",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/curvenote/meca-sword-api.git",
+    "directory": "packages/sword-common"
+  },
+  "homepage": "https://github.com/curvenote/meca-sword-api/tree/main/packages/sword-common",
+  "bugs": "https://github.com/curvenote/meca-sword-api/issues",
+  "sideEffects": false,
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./meca": {
+      "types": "./dist/meca.d.ts",
+      "import": "./dist/meca.js"
+    }
+  },
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "keywords": [
+    "meca",
+    "sword",
+    "swordv3",
+    "open-science",
+    "publishing"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "clean": "rm -rf dist",
+    "dev": "tsc -p tsconfig.build.json --watch --preserveWatchOutput",
+    "build": "bun run clean && tsc -p tsconfig.build.json",
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint \"src/**/*.ts\" -c ./.eslintrc.cjs",
+    "lint:format": "prettier --check \"src/**/*.{ts,tsx,md}\"",
+    "test": "vitest run",
+    "test:watch": "vitest"
+  },
+  "dependencies": {
+    "fflate": "^0.8.3",
+    "jats-xml": "^1.1.8",
+    "meca": "^1.1.8",
+    "myst-common": "^1.10.1"
+  }
+}
